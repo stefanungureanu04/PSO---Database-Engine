@@ -1,0 +1,42 @@
+Am facut clasa SocketChannel ca wrapper peste SFML.
+
+Clasa accepta doua tipuri de socket-uri: normale si selectoare.
+
+In general, acceptarea conexiunilor multiple se face prin thread-uri dedicate fiecarui client.
+Totusi, este recomandant ca in cazul operatiunilor simple (autentificare, creare useri) sa se foloseasca un singur thread.
+In acest sens, vom folosi varianta selectoare a SFML, care realizeaza o multiplexare a socket-urilor.
+
+## Atentie! Acesta este cazul autentificarii, in restul aplicatiei vom lucra cu thread-uri, in mod evident.
+
+Pentru a testa cum functioneaza un model simplist server-client cu mai multe conexiuni, single-threaded, trebuie sa compilam manual (nu am updatat inca Makefile-urile):
+
+    g++ -std=c++17 SERVER/main.cpp network/SocketChannel.cpp -I include -o server -lsfml-network -lsfml-system -pthread
+    g++ -std=c++17 CLIENT/main.cpp network/SocketChannel.cpp -I include -o client -lsfml-network -lsfml-system -pthread 
+
+Apoi, pornim serverul si deschidem 2 terminale, iar din fiecare din acestea rulam ./client.
+
+
+De asemenea, am facut clasa Logger, care gestioneaza log-urile din aplicatie.
+
+In genere, ea este compusa dintr-un vector de obiecte LogEntry care sunt de fapt niste propozitii de forma:
+    
+    [timestamp][level] username: message, unde level = INFO | ERROR 
+
+Am ales abordarea asta deoarece ma gandesc ca ar fi eficient sa folosim o clasa dedicata pentru mesajele de log, atat in server, cat si in client.
+Spre exemplu, daca vreau ca utilizatorul sa-si poata vedea log-urile, este mult mai usor pentru el sa lucreze direct cu un obiect care exista si in server decat
+in cazul in care serverul ar parsa din nou fiecare intrare iar clientul ar reconstrui-o la destinatie.
+
+    Server prelucreaza obiecte LogEntry -> Clientul primeste obiecte LogEntry => portabilitate mai mare
+    Clientul nu mai trebuie sa prelucreze el datele, ci pur si simplu apeleaza metodele clasei LogEntry.
+    De asemenea, daca clientul vrea sa scrie in log, trimite server-ului direct un obiect LogEntry.
+
+## Atentie! Clasa Logger este singleton si exista doar in server.
+
+Pentru a testa, am lasat programul test.cpp care se compileaza in felul urmator:
+    
+    g++ -std=c++17 SERVER/main.cpp src/SocketChannel.cpp -I include -o server -lsfml-network -lsfml-system -pthread 
+
+
+PE VIITOR, POSIBILE IMBUNATIRI:
+    - biblioteca dinamica pentru sockets
+    - biblioteca pentru logging (maybe??)

@@ -3,6 +3,7 @@
 #include <iostream>
 #include <vector>
 #include <memory>
+#include <logger/Logger.hpp>
 
 int numclients=0;
 

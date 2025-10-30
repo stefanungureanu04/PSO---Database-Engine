@@ -35,7 +35,8 @@ in cazul in care serverul ar parsa din nou fiecare intrare iar clientul ar recon
 Pentru a testa, am lasat programul test.cpp care se compileaza in felul urmator:
     
     g++ -std=c++17 SERVER/main.cpp src/SocketChannel.cpp -I include -o server -lsfml-network -lsfml-system -pthread 
-
+    -- la mine asta a mers :
+    g++ -std=c++17 SERVER/test.cpp SERVER/Logger.cpp SERVER/LogEntry.cpp -I include -o test_logger -pthread
 
 PE VIITOR, POSIBILE IMBUNATIRI:
     - biblioteca dinamica pentru sockets

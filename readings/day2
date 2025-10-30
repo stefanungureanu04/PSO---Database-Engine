@@ -1,0 +1,35 @@
+-> In primul rand, am modificat putin "structura" proiectului SERVER, intrucat am considerat necesara impartirea "modulara" a fisierelor 
+    astfel, avem in felul urmator:
+    ├── SERVER/
+    │   ├── main.cpp
+    │   ├── test.cpp
+    │   ├── Makefile
+    │   ├── auth/
+    │   │   ├── User.hpp
+    │   │   ├── User.cpp
+    │   │   ├── UsersFile.hpp
+    │   │   ├── UsersFile.cpp
+    │   │
+    │   ├── logger/
+    │   │   ├── Logger.hpp
+    │   │   ├── Logger.cpp
+    │   │   ├── LogEntry.hpp
+    │   │   ├── LogEntry.cpp
+
+Ca urmare, vom avea nevoie de alte comenzi pentru compilarea programului:
+    -> pentru server - pentru moment ramane aceeasi : g++ -std=c++17 SERVER/main.cpp network/SocketChannel.cpp -I include -o server -lsfml-network -lsfml-system -pthread
+    -> pentru test_logger - g++ -std=c++17 SERVER/test.cpp SERVER/logger/Logger.cpp SERVER/logger/LogEntry.cpp -I SERVER -o test_logger -pthread
+
+Am facut o clasa User => cu username si parola, reprezinta un utilizator
+    pentru parola am folosit passwordHash, pentru a nu fi stocata "in clar" in fisiere
+    am folosit biblioteca openssl pentru o cripatare simpla, dar trebuie instalata, folosind comenzile:
+    -> sudo apt update
+    -> sudo apt install libssl-dev
+
+Am facut si o clasa UsersFile, care sa gestineze lista de utilizatori
+    in aceasta clasa incarcam din fisier (/tmp/.usersdb) utilizatorii existenti si verificam autentificarea
+
+
+Ca inainte, am facut si un mic program de test (users.cpp), pentru a vedea daca functioneaza
+Compilarea proiectului se face folosind:
+    g++ -std=c++17 SERVER/users.cpp SERVER/auth/User.cpp SERVER/auth/UsersFile.cpp -I SERVER -o test_users -pthread -lcrypto

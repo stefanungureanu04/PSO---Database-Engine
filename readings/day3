@@ -1,1 +1,6 @@
 Am schimbat apelurile de citire din auth si logger, si am pus apelurile din POSIX pentru read() si write().
+DE FACUT:
+- creare clasa in CLIENT de auth
+- creare clasa in SERVER de auth
+legare clase intre ele, in main. cpp din CLIENT formulam cererea, in main.cpp din SERVER parsam cererea si raspund cu string la cerere
+- clase manager pentru app

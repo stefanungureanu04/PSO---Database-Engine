@@ -27,9 +27,12 @@ Am facut o clasa User => cu username si parola, reprezinta un utilizator
     -> sudo apt install libssl-dev
 
 Am facut si o clasa UsersFile, care sa gestineze lista de utilizatori
-    in aceasta clasa incarcam din fisier (/etc/.usersdb) utilizatorii existenti si verificam autentificarea
+    in aceasta clasa incarcam din fisier (/tmp/.usersdb) utilizatorii existenti si verificam autentificarea
 
 
 Ca inainte, am facut si un mic program de test (users.cpp), pentru a vedea daca functioneaza
 Compilarea proiectului se face folosind:
     g++ -std=c++17 SERVER/users.cpp SERVER/auth/User.cpp SERVER/auth/UsersFile.cpp -I SERVER -o test_users -pthread -lcrypto
+
+
+Mutexul blocheaza fisierul atunci cand lucrezi cu threaduri, astfel incat sa nu existe conflicte de concurenta la acelasi fisier

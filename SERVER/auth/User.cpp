@@ -2,6 +2,10 @@
 #include <openssl/sha.h>
 #include <sstream>
 #include <iomanip>
+#include <fcntl.h>
+#include <unistd.h>
+#include <cstring>
+#include <stdexcept>
 
 User::User(const std::string &username, const std::string &password)
 {
@@ -54,4 +58,51 @@ std::string User::hashPassword(const std::string &password)
     for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i)
         oss << std::hex << std::setw(2) << std::setfill('0') << (int)hash[i];
     return oss.str();
+}
+
+bool User::saveToFile(const std::string &filename, const User &user)
+{
+    int fd = open(filename.c_str(), O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR);
+    if (fd == -1)
+    {
+        perror("Failed to open file");
+        return false;
+    }
+
+    std::string userStr = user.toString() + "\n";
+    ssize_t bytesWritten = write(fd, userStr.c_str(), userStr.size());
+    if (bytesWritten == -1)
+    {
+        perror("Failed to write to file");
+        close(fd);
+        return false;
+    }
+
+    close(fd);
+    return true;
+}
+
+bool User::loadFromFile(const std::string &filename, User &user)
+{
+    int fd = open(filename.c_str(), O_RDONLY);
+    if (fd == -1)
+    {
+        perror("Failed to open file");
+        return false;
+    }
+
+    char buffer[1024];
+    ssize_t bytesRead = read(fd, buffer, sizeof(buffer) - 1);
+    if (bytesRead == -1)
+    {
+        perror("Failed to read from file");
+        close(fd);
+        return false;
+    }
+
+    buffer[bytesRead] = '\0';
+    user = User::fromString(std::string(buffer));
+
+    close(fd);
+    return true;
 }

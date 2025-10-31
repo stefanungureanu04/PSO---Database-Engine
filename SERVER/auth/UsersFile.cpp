@@ -1,10 +1,16 @@
 #include "UsersFile.hpp"
-#include <fstream>
+#include <fcntl.h>
+#include <unistd.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <cstring>
 #include <iostream>
-#include <filesystem>
+#include <cerrno>
+#include <algorithm>
+#include <sys/file.h>
 
 UsersFile *UsersFile::instance = nullptr;
-std::string UsersFile::filename = "/tmp/.usersdb"; // fisier de stocare a utilizatorilor
+std::string UsersFile::filename = "/tmp/.usersdb"; 
 std::mutex UsersFile::Mutex;
 
 UsersFile &UsersFile::getInstance()
@@ -14,7 +20,7 @@ UsersFile &UsersFile::getInstance()
     if (instance == nullptr)
     {
         instance = new UsersFile();
-        instance->loadFromFile();
+        instance->loadFromFile(); // incarcare useri din fisier
     }
 
     return *instance;
@@ -31,30 +37,80 @@ void UsersFile::loadFromFile()
 {
     users.clear();
 
-    std::ifstream in(filename);
-    if (!in.is_open())
-        return;
-
-    std::string line;
-    while (std::getline(in, line))
+    int fd = open(filename.c_str(), O_RDONLY);
+    if (fd == -1)
     {
+        perror("Failed to open file");
+        return;
+    }
+
+    if (flock(fd, LOCK_SH) == -1)
+    {
+        perror("Failed to lock file");
+        close(fd);
+        return;
+    }
+
+    char buffer[1024];
+    ssize_t bytesRead;
+    std::string fileContent;
+
+    while ((bytesRead = read(fd, buffer, sizeof(buffer))) > 0)
+    {
+        fileContent.append(buffer, bytesRead);
+    }
+
+    if (bytesRead == -1)
+    {
+        perror("Failed to read file");
+    }
+
+    size_t pos = 0;
+    while ((pos = fileContent.find('\n')) != std::string::npos)
+    {
+        std::string line = fileContent.substr(0, pos);
         if (!line.empty())
         {
             users.push_back(User::fromString(line));
         }
+        fileContent.erase(0, pos + 1);
     }
 
-    in.close();
+    flock(fd, LOCK_UN);
+    close(fd);
 }
 
 void UsersFile::saveToFile() const
 {
-    std::ofstream out(filename, std::ios::trunc);
-    for (const auto &u : users)
+    int fd = open(filename.c_str(), O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR);
+    if (fd == -1)
     {
-        out << u.toString() << "\n";
+        perror("Failed to open file");
+        return;
     }
-    out.close();
+
+    if (flock(fd, LOCK_EX) == -1)
+    {
+        perror("Failed to lock file");
+        close(fd);
+        return;
+    }
+
+    for (const auto &user : users)
+    {
+        std::string userStr = user.toString() + "\n";
+        ssize_t bytesWritten = write(fd, userStr.c_str(), userStr.size());
+        if (bytesWritten == -1)
+        {
+            perror("Failed to write to file");
+            flock(fd, LOCK_UN);
+            close(fd);
+            return;
+        }
+    }
+
+    flock(fd, LOCK_UN);
+    close(fd);
 }
 
 bool UsersFile::addUser(const std::string &username, const std::string &password)
@@ -73,18 +129,22 @@ bool UsersFile::authenticate(const std::string &username, const std::string &pas
 {
     std::lock_guard<std::mutex> lock(Mutex);
 
-    for (const auto &u : users)
-        if (u.getUsername() == username && u.checkPassword(password))
+    for (const auto &user : users)
+    {
+        if (user.getUsername() == username && user.checkPassword(password))
             return true;
+    }
 
     return false;
 }
 
 bool UsersFile::userExists(const std::string &username) const
 {
-    for (const auto &u : users)
-        if (u.getUsername() == username)
+    for (const auto &user : users)
+    {
+        if (user.getUsername() == username)
             return true;
+    }
     return false;
 }
 

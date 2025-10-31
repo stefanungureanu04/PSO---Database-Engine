@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <vector>
 
 class User {
 private:
@@ -17,6 +18,9 @@ public:
 
     const std::string toString() const;
     static User fromString(const std::string &line);
+
+    static bool saveToFile(const std::string &filename, const User &user);
+    static bool loadFromFile(const std::string &filename, User &user);
 
 private:
     static std::string hashPassword(const std::string &password);

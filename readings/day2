@@ -33,3 +33,6 @@ Am facut si o clasa UsersFile, care sa gestineze lista de utilizatori
 Ca inainte, am facut si un mic program de test (users.cpp), pentru a vedea daca functioneaza
 Compilarea proiectului se face folosind:
     g++ -std=c++17 SERVER/users.cpp SERVER/auth/User.cpp SERVER/auth/UsersFile.cpp -I SERVER -o test_users -pthread -lcrypto
+
+
+Mutexul blocheaza fisierul atunci cand lucrezi cu threaduri, astfel incat sa nu existe conflicte de concurenta la acelasi fisier

@@ -1,0 +1,1 @@
+Am schimbat apelurile de citire din auth si logger, si am pus apelurile din POSIX pentru read() si write().

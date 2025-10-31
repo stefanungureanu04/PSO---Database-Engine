@@ -1,7 +1,9 @@
 #include "Logger.hpp"
 #include <fstream>
 #include <iostream>
-#include <filesystem>
+#include <unistd.h>
+#include <fcntl.h>
+#include <string.h>
 
 Logger* Logger::instance = nullptr;
 
@@ -32,24 +34,22 @@ void Logger::destroyInstance()
     Logger::instance = nullptr;
 }
 
-void Logger::write(const LogEntry &entry) 
+void Logger::writeEntry(const LogEntry &entry) 
 {
     std::lock_guard<std::mutex> lock(Mutex);
 
     this->entries.push_back(entry);
 
-    if (!std::filesystem::exists(filename)) {
-        std::ofstream create(filename);
-        create.close();
-    }
+    int fd = open(Logger::filename.c_str(), O_WRONLY | O_CREAT | O_APPEND);
 
-    std::ofstream out(filename, std::ios::app);
-    if (!out.is_open()) {
+    if(fd < 0) {
         return;
     }
 
-    out << entry.toString() << "\n";
-    out.close();
+    write(fd, entry.toString().c_str(), strlen(entry.toString().c_str()));
+    write(fd, "\n", 1);
+
+    close(fd);
 }
 
 std::vector<LogEntry> Logger::getEntries() const 
@@ -63,9 +63,13 @@ void Logger::flush()
 {
     std::lock_guard<std::mutex> lock(Mutex);
 
-    std::ofstream out(filename, std::ios::trunc);
+    int fd = open(Logger::filename.c_str(), O_TRUNC);
 
-    out.close();
+    if (fd < 0) {
+        return;
+    }
+
+    close(fd);
 
     entries.clear();
 }
@@ -75,10 +79,13 @@ void Logger::loadFromFile()
     this->entries.clear();
 
     std::ifstream in(filename);
-    
-    if (!in.is_open())
-        return;
 
+    int fd = open(Logger::filename.c_str(), O_RDONLY);
+
+    if (fd < 0) {
+        return;
+    }
+    
     std::string line;
     
     while (std::getline(in, line)) 

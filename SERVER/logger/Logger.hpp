@@ -16,7 +16,7 @@ public:
     static Logger& getInstance();
     static void destroyInstance();
 
-    void write(const LogEntry& entry);
+    void writeEntry(const LogEntry& entry);
     std::vector<LogEntry> getEntries() const;
     void flush();
 

@@ -5,10 +5,10 @@ int main()
 {
     Logger &log = Logger::getInstance();
 
-    log.write(LogEntry("system", "Server started", LogEntry::Level::INFO));
-    log.write(LogEntry("db", "Connection failed", LogEntry::Level::ERROR));
-    log.write(LogEntry("alice", "User login success", LogEntry::Level::INFO));
-    log.write(LogEntry("alice", "Failed INSERT query", LogEntry::Level::ERROR));
+    log.writeEntry(LogEntry("system", "Server started", LogEntry::Level::INFO));
+    log.writeEntry(LogEntry("db", "Connection failed", LogEntry::Level::ERROR));
+    log.writeEntry(LogEntry("alice", "User login success", LogEntry::Level::INFO));
+    log.writeEntry(LogEntry("alice", "Failed INSERT query", LogEntry::Level::ERROR));
 
     std::cout << "\n--- All logs ---\n";
     for (const auto &e : log.getEntries())

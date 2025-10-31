@@ -12,7 +12,8 @@ private:
     static std::mutex Mutex;
     std::vector<User> users;
 
-    UsersFile() = default; // privat - singleton
+    UsersFile() = default;
+
     void loadFromFile();
     void saveToFile() const;
 

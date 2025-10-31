@@ -5,7 +5,7 @@
 
 Logger* Logger::instance = nullptr;
 
-std::string Logger::filename = "/tmp/.dblog";
+std::string Logger::filename = "/etc/.dblog";
 
 std::mutex Logger::Mutex;
 

@@ -4,7 +4,7 @@
 #include <filesystem>
 
 UsersFile *UsersFile::instance = nullptr;
-std::string UsersFile::filename = "/tmp/.usersdb"; // fisier de stocare a utilizatorilor
+std::string UsersFile::filename = "/etc/.usersdb"; // fisier de stocare a utilizatorilor
 std::mutex UsersFile::Mutex;
 
 UsersFile &UsersFile::getInstance()

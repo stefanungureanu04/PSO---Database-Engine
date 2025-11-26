@@ -1,0 +1,20 @@
+[Wed Nov 26 19:20:48 2025] [stefan] [NONE] ls
+[Wed Nov 26 19:20:49 2025] [stefan] [NONE] ls
+[Wed Nov 26 19:20:50 2025] [stefan] [NONE] log
+[Wed Nov 26 19:20:53 2025] [stefan] [NONE] log
+[Wed Nov 26 19:20:58 2025] [stefan] [NONE] log
+[Wed Nov 26 19:21:02 2025] [stefan] [NONE] show -databases
+[Wed Nov 26 19:23:03 2025] [stefan] [NONE] show -databases
+[Wed Nov 26 19:23:09 2025] [stefan] [NONE] use db
+[Wed Nov 26 19:23:13 2025] [stefan] [db] select * from complex
+[Wed Nov 26 19:23:24 2025] [stefan] [db] insert into complex values (7,3)
+[Wed Nov 26 19:23:29 2025] [stefan] [db] select * from complex
+[Wed Nov 26 19:23:44 2025] [stefan] [db] save -configuration /home/stefan/Documents/file
+[Wed Nov 26 19:24:31 2025] [daria] [NONE] ls
+[Wed Nov 26 19:24:32 2025] [daria] [NONE] ls
+[Wed Nov 26 19:24:35 2025] [daria] [NONE] show -databases
+[Wed Nov 26 19:24:42 2025] [daria] [NONE] log
+[Wed Nov 26 19:24:45 2025] [stefan] [NONE] log
+[Wed Nov 26 19:25:37 2025] [stefan] [NONE] show -databases
+[Wed Nov 26 19:25:41 2025] [stefan] [NONE] use db
+[Wed Nov 26 19:25:44 2025] [stefan] [db] select * from complex

@@ -1,0 +1,17 @@
+COMENZI:
+
+    * clear: curata consola
+    * log: afiseaza intrarile din log ale utilizatorului curent
+
+    * show -databases: afiseaza bazele de date ale utilizatorului curent
+    * show -tables: afiseaza tabelele bazei de date curente
+
+    * save -configuration filename: salveaza in fisierul 'filename' configuratia (tabelele) bazei de date curente
+    * save -table tablename filename: salveaza intrarile tabelului 'tablename' in fisierul 'filename
+    * save -logs filename: salveaza intrarile din log-ul utilizatorului curent in fisierul 'filename
+
+PENTRU INTEROGAREA BD SE FOLOSESC COMENZI SQL NORMALE!
+
+    * use database, select * from..., etc
+
+Momentan merge doar insert si select * (fara niciun filtru)

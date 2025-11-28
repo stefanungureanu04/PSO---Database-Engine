@@ -16,8 +16,9 @@
 #define RESP_ERR "ERROR"
 
 // Helper struct for messages
-struct Message {
-  char data[BUFFER_SIZE];
+struct Message
+{
+	char data[BUFFER_SIZE];
 };
 
 #endif // PROTOCOL_H

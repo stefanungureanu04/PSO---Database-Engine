@@ -5,12 +5,12 @@
 #include <string>
 #include <vector>
 
-class Saver {
+class Saver
+{
 public:
-  static std::string saveConfig(std::string filename, std::string currentDB, std::string owner);
-  static std::string saveLogs(std::string filename);
-  static std::string saveTable(std::string tableName, std::string filename,
-                               std::string currentDB, Database &db);
+	static std::string saveConfig(std::string filename, std::string currentDB, std::string owner);
+	static std::string saveLogs(std::string filename);
+	static std::string saveTable(std::string tableName, std::string filename, std::string currentDB, Database &db);
 };
 
 #endif

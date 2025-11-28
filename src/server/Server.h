@@ -7,24 +7,24 @@
 #include <thread>
 #include <vector>
 
-class Server {
+class Server
+{
 private:
-  int serverSocket;
-  int port;
-  struct sockaddr_in serverAddr;
-  bool running;
-  int user;
+	int serverSocket;
+	int port;
+	struct sockaddr_in serverAddr;
+	bool running;
+	int user;
 
-  // Concurrency limits
-  sem_t connectionSem;
+	sem_t connectionSem;
 
-  void handleClient(int clientSocket);
+	void handleClient(int clientSocket);
 
 public:
-  Server(int port);
-  ~Server();
-  void start();
-  void stop();
+	Server(int port);
+	~Server();
+	void start();
+	void stop();
 };
 
-#endif // SERVER_H
+#endif

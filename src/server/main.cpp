@@ -2,15 +2,17 @@
 #include "Server.h"
 #include <iostream>
 
-int main(int argc, char *argv[]) {
-  int port = 8080;
-  if (argc > 1) {
-    port = std::stoi(argv[1]);
-  }
+int main(int argc, char *argv[])
+{
+	int port = 8080;
+	if (argc > 1)
+	{
+		port = std::stoi(argv[1]);
+	}
 
-  Server server(port);
+	Server server(port);
 
-  server.start();
+	server.start();
 
-  return 0;
+	return 0;
 }

@@ -1,18 +1,17 @@
 #include "Database.h"
 #include "Server.h"
-#include <iostream>
 
 int main(int argc, char *argv[])
 {
-	int port = 8080;
-	if (argc > 1)
-	{
-		port = std::stoi(argv[1]);
-	}
+    int port = 8080;
 
-	Server server(port);
+    if (argc > 1){
+        port = std::stoi(argv[1]);
+    }
 
-	server.start();
+    Server server(port);
 
-	return 0;
+    server.start();
+
+    return 0;
 }

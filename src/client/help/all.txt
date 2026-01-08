@@ -1,0 +1,32 @@
+Available commands:
+
+    *   HELP [command]   - Show help for a command or list all commands
+    
+    *   CREATE           - Create a database or table
+    
+    *   DROP             - Drop a database or table
+    
+    *   USE              - Select a database to use
+    
+    *   INSERT           - Insert data into a table
+    
+    *   SELECT           - Query data from a table
+    
+    *   UPDATE           - Update data in a table
+    
+    *   DELETE           - Delete data from a table
+    
+    *   SHOW             - Show databases or tables
+    
+    *   SAVE             - Save configuration or logs
+    
+    *   LOG              - View server logs
+    
+    *   CLEAR            - Clear the terminal screen
+    
+    *   EXIT             - Exit the application
+
+
+
+Type 'HELP <command>' for detailed usage.
+Press 'q' to exit this prompt.

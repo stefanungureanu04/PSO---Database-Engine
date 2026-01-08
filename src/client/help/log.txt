@@ -1,0 +1,11 @@
+NAME:
+  log - displays the server operation logs for the current user
+
+SYNOPSIS:
+  log
+
+DESCRIPTION:
+
+    *   Displays the server operation logs for the current user.
+
+Press 'q' to exit this prompt.

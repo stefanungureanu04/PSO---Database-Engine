@@ -1,0 +1,22 @@
+NAME:
+  select - retrieves data from a table
+
+SYNOPSIS:
+  select <col1>, <col2>, ... from <table> [where <condition>]
+  select * from <table> [where <condition>]
+
+DESCRIPTION:
+
+    *   Retrieves data from a table.
+    
+    *   You can select specific columns or use * for all columns.
+    
+    *   Optional WHERE clause filters rows based on conditions.
+    
+    *   Conditions support operators: =, !=, <, >, <=, >=, AND, OR.
+    
+    *   Also, you can use ORDER BY to sort the results.
+    
+    *   ORDER BY can be used with DESC or ASC.
+
+Press 'q' to exit this prompt.

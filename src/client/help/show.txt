@@ -1,0 +1,12 @@
+NAME:
+  show - lists available databases or tables in the current database
+
+SYNOPSIS:
+  show -databases
+  show -tables
+
+DESCRIPTION:
+
+    *   Lists available databases or tables in the current database.
+
+Press 'q' to exit this prompt.

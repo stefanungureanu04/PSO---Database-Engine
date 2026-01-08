@@ -1,0 +1,18 @@
+NAME:
+  create - creates a new database or table
+
+SYNOPSIS:
+  create database <name>
+  create table <name> (<col1> <type>, <col2> <type>, ...)
+
+DESCRIPTION:
+    
+    *   Creates a new database or table.
+
+    *   Supported types for table columns: INT, VARCHAR, DATE.
+
+EXAMPLES:
+  CREATE DATABASE database_name
+  CREATE TABLE table_name (column_name column_type, column_name column_type, ...)
+
+Press 'q' to exit this prompt.

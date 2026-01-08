@@ -1,0 +1,18 @@
+NAME:
+  save - saves server configuration, logs, or table data to a specified file
+
+SYNOPSIS:
+  save -configuration <filename>
+  save -logs <filename>
+  save -table <table> <filename>
+
+OPTIONS:
+  -configuration <filename> - saves server configuration to a specified file
+  -logs <filename> - saves server logs to a specified file
+  -table <table> <filename> - saves table data to a specified file
+
+DESCRIPTION:
+
+    Saves server configuration, logs, or table data to a specified file.
+
+Press 'q' to exit this prompt.

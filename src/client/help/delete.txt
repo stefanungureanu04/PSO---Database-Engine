@@ -1,0 +1,15 @@
+NAME:
+  delete - deletes rows from a table that match the specified condition
+
+SYNOPSIS:
+  delete from <table> where <condition>
+
+DESCRIPTION:
+
+    *   Deletes rows from a table that match the specified condition.
+
+    *   Conditions support operators: =, !=, <, >, <=, >=, AND, OR.
+
+    *   Where clause is optional, as well as the condition.
+
+Press 'q' to exit this prompt.

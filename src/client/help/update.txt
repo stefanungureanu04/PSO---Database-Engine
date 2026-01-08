@@ -1,0 +1,15 @@
+NAME:
+  update - updates rows in a table that match the specified condition
+
+SYNOPSIS:
+  update <table> set <col>=<val> where <condition>
+
+DESCRIPTION:
+
+    *   Updates rows in a table that match the specified condition.
+    
+    *   Conditions support operators: =, !=, <, >, <=, >=, AND, OR.
+    
+    *   The WHERE clause is mandatory.
+
+Press 'q' to exit this prompt.

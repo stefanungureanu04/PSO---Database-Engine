@@ -1,0 +1,15 @@
+NAME:
+  insert - inserts a new row into the specified table
+
+SYNOPSIS:
+  insert into <table> values (<val1>, <val2>, ...)
+
+DESCRIPTION:
+
+    *   Inserts a new row into the specified table.
+    
+    *   Values must match the column types and order defined in table schema.
+    
+    *   String values should be enclosed in quotes.
+
+Press 'q' to exit this prompt.

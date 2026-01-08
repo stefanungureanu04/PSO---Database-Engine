@@ -1,0 +1,18 @@
+NAME:
+  drop - deletes an existing database or table
+
+SYNOPSIS:
+  drop database <name>
+  drop table <name>
+
+DESCRIPTION:
+    
+    *   Deletes an existing database or table.
+    
+    *   WARNING: This action is irreversible and all data will be lost.
+
+Examples:
+  DROP DATABASE database_name
+  DROP TABLE table_name
+
+Press 'q' to exit this prompt.

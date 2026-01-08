@@ -1,0 +1,8 @@
+NAME:
+  clear - clear the terminal screen
+
+DESCRIPTION:
+
+    *   Clears the terminal screen.
+
+Press 'q' to exit this prompt.

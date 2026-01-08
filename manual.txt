@@ -1,17 +1,21 @@
 COMENZI:
 
-    * clear: curata consola
-    * log: afiseaza intrarile din log ale utilizatorului curent
+    * clear: Curata ecranul terminalului pentru a elibera spatiul de lucru.
 
-    * show -databases: afiseaza bazele de date ale utilizatorului curent
-    * show -tables: afiseaza tabelele bazei de date curente
+    * log: afiseaza istoricul operatiunilor de server efectuate de utilizatorul curent.
 
-    * save -configuration filename: salveaza in fisierul 'filename' configuratia (tabelele) bazei de date curente
-    * save -table tablename filename: salveaza intrarile tabelului 'tablename' in fisierul 'filename
-    * save -logs filename: salveaza intrarile din log-ul utilizatorului curent in fisierul 'filename
+    * show: listeaza resursele disponibile, permitand vizualizarea bazelor de date sau a tabelelor din baza de date curenta.
 
-PENTRU INTEROGAREA BD SE FOLOSESC COMENZI SQL NORMALE!
+    * create: permite crearea unei baze de date noi sau a unui tabel nou , definind coloanele si tipurile de date (INT, VARCHAR, DATE).
 
-    * use database, select * from..., etc
+    * drop: sterge definitiv o baza de date sau un tabel existent. Atentie: aceasta actiune este ireversibila.
 
-Momentan merge doar insert si select * (fara niciun filtru)
+    * select: recupereaza date dintr-un tabel. Permite selectia anumitor coloane , filtrarea rezultatelor prin clauza WHERE si sortarea acestora prin ORDER BY.
+
+    * insert: adauga randuri noi intr-un tabel , respectand schema si ordinea coloanelor definita.
+
+    * update: modifica valorile din randurile existente care indeplinesc o conditie specificata. Clauza WHERE este obligatorie.
+
+    * delete: elimina randurile dintr-un tabel care corespund criteriilor mentionate in conditia de filtrare.
+
+    * save: exporta informatii esentiale intr-un fisier specificat. Poate fi folosit pentru a salva configuratia serverului, log-urile de activitate sau datele brute dintr-un tabel.

@@ -4,18 +4,17 @@
 #include <netinet/in.h>
 #include <string>
 
-class Client
-{
+class Client {
 private:
-	int sock;
-	struct sockaddr_in serverAddr;
-	bool connected;
+    int sock;
+    struct sockaddr_in serverAddr;
+    bool connected;
 
 public:
-	Client(std::string ip, int port);
-	~Client();
-	bool connectToServer();
-	void run();
+    Client(std::string ip, int port);
+    ~Client();
+    bool connectToServer();
+    void run();
 };
 
 #endif

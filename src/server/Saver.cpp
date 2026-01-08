@@ -60,14 +60,29 @@ std::string Saver::saveConfig(std::string filename, std::string currentDB, std::
     }
 }
 
-std::string Saver::saveLogs(std::string filename)
+std::string Saver::saveLogs(std::string filename, std::string username)
 {
     std::string logFile = ".logs/server.log";
+    std::string pattern = "\\[" + username + "\\]";
 
     pid_t pid = fork();
 
     if (pid == 0){
-        execlp("cp", "cp", logFile.c_str(), filename.c_str(), NULL);
+
+        int fd = open(filename.c_str(), O_WRONLY | O_CREAT | O_TRUNC, 0644);
+        
+        if (fd == -1) {
+            perror("open");
+            exit(EXIT_FAILURE);
+        }
+
+        if (dup2(fd, STDOUT_FILENO) == -1) {
+            perror("dup2");
+            exit(EXIT_FAILURE);
+        }
+
+        close(fd);
+        execlp("grep", "grep", pattern.c_str(), logFile.c_str(), NULL);
         exit(EXIT_FAILURE);
     }
     else{

@@ -5,6 +5,7 @@
 #include <cstring>
 #include <sys/socket.h>
 #include <unistd.h>
+#include <sys/stat.h>
 
 #define MAX_CLIENTS 10
 
@@ -13,6 +14,12 @@ Server::Server(int port)
     this->port = port;
     this->running = false;
     sem_init(&connectionSem, 0, MAX_CLIENTS);
+
+    struct stat st;
+
+    if (stat(".data", &st) == -1){
+        mkdir(".data", 0700);
+    }
 }
 
 Server::~Server()

@@ -1,0 +1,4 @@
+nume_editura VARCHAR
+oras VARCHAR
+cod_fiscal INT
+num_angajati INT

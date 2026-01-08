@@ -1,0 +1,5 @@
+titlu VARCHAR
+gen_literar VARCHAR
+nr_pagini INT
+pret INT
+data_aparitie DATE

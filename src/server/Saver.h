@@ -8,7 +8,7 @@
 class Saver {
 public:
     static std::string saveConfig(std::string filename, std::string currentDB, std::string owner);
-    static std::string saveLogs(std::string filename);
+    static std::string saveLogs(std::string filename, std::string username);
     static std::string saveTable(std::string tableName, std::string filename, std::string currentDB, Database &db);
 };
 

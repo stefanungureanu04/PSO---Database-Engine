@@ -143,7 +143,7 @@ std::string Database::executeCommand(std::string cmd, std::string &currentDB, st
             return Saver::saveConfig(filename, currentDB, this->owner);
         }
         else if (option == OPT_LOGS){
-            return Saver::saveLogs(filename);
+            return Saver::saveLogs(filename,username);
         }
         else if (option == OPT_TABLE){
 
@@ -465,7 +465,6 @@ std::string Database::handleShow(std::string cmd, std::string &currentDB)
                     std::string tableName = fname.substr(0, fname.length() - 7);
                     result += tableName + "\n";
 
-                    result += tableName + "\n";
                     int fd = open((path + "/" + fname).c_str(), O_RDONLY);
 
                     if (fd != -1)

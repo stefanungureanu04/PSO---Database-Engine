@@ -1,7 +1,6 @@
 #include "Database.h"
 #include "../common/Protocol.h"
 #include "Saver.h"
-
 #include <algorithm>
 #include <dirent.h>
 #include <fcntl.h>
@@ -566,7 +565,7 @@ std::string Database::handleLog(std::string username)
     }
     else{
         close(pipefd[1]);
-        char buffer[1024];
+        char buffer[BUFFER_SIZE];
         std::string result;
         int bytesRead;
 

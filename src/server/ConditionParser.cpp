@@ -139,6 +139,10 @@ bool ConditionParser::evalExpression(std::string expr, const std::vector<std::st
 
     std::string leftVal = getValue(row, left);
 
+    if (leftVal.size() >= 2 && (leftVal.front() == '\'' || leftVal.front() == '"')) {
+        leftVal = leftVal.substr(1, leftVal.size() - 2);
+    }
+
     if (leftVal.empty() && getColIndex(left) == -1)
     {
         leftVal = left;

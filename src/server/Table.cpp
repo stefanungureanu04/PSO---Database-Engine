@@ -26,6 +26,66 @@ std::string Table::getName() const
     return name; 
 }
 
+std::string Table::removeQuotes(std::string str)
+{
+    str.erase(std::remove(str.begin(), str.end(), '\''), str.end());
+    
+    return str;
+}
+
+bool Table::isValidDate(std::string strdate)
+{
+    if (strdate.length() != 10){
+        return false;
+    } 
+
+    if (strdate[4] != '-' || strdate[7] != '-'){
+        return false;
+    } 
+
+    for (int i = 0; i < 10; i++) {
+        
+        if (i == 4 || i == 7) {
+            continue;
+        }
+        if (!isdigit(strdate[i])) {
+            return false;
+        }
+    }
+
+    int year, month, day;
+
+    try {
+        year = std::stoi(strdate.substr(0, 4));
+        month = std::stoi(strdate.substr(5, 2));
+        day = std::stoi(strdate.substr(8, 2));
+    } catch (...) {
+        return false;
+    }
+
+    if (month < 1 || month > 12){
+        return false;
+    }
+
+    if (year < 1600 || year > 2200) {
+        return false;
+    }
+
+    std::vector<int> daysInMonth = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+
+    bool isLeap = (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
+    
+    if (isLeap) {
+        daysInMonth[1] = 29;
+    }
+
+    if (day < 1 || day > daysInMonth[month - 1]) {
+        return false;
+    }
+
+    return true;
+}
+
 std::string Table::insert(const std::vector<std::string> &values)
 {
     std::lock_guard<std::mutex> lock(tableMutex);
@@ -38,6 +98,12 @@ std::string Table::insert(const std::vector<std::string> &values)
 
     for (size_t i = 0; i < values.size(); ++i)
     {
+        if (columns[i].type == TYPE_DATE) { 
+            if (!isValidDate(values[i])) {
+                return "ERROR: Invalid date format in column '" + columns[i].name + "'. Expected YYYY-MM-DD.";
+            }
+        }
+
         ss << values[i];
     
         if (i < values.size() - 1){
@@ -172,6 +238,33 @@ std::string Table::select(const std::vector<std::string> &reqColumns, const std:
     }
 
     std::string result = "";
+    const size_t colWidth = 25; 
+
+    for (size_t i = 0; i < colIndices.size(); ++i)
+    {
+        int idx = colIndices[i];
+        std::string colName = columns[idx].name; 
+
+        result += colName;
+
+        if (colName.length() < colWidth) {
+            result += std::string(colWidth - colName.length(), ' ');
+        }
+
+        if (i < colIndices.size() - 1) {
+            result += " | ";
+        }
+    }
+    result += "\n";
+
+    for (size_t i = 0; i < colIndices.size(); ++i)
+    {
+        result += std::string(colWidth, '-');
+        if (i < colIndices.size() - 1) {
+            result += "-+-";
+        }
+    }
+    result += "\n";
 
     for (size_t r = 0; r < filteredRows.size(); ++r)
     {
@@ -180,20 +273,26 @@ std::string Table::select(const std::vector<std::string> &reqColumns, const std:
         for (size_t i = 0; i < colIndices.size(); ++i)
         {
             int idx = colIndices[i];
+            std::string cell = "";
 
-            if (idx < (int)row.size())
-            {
-                result += row[idx];
+            if (idx < (int)row.size()) {
+                cell = removeQuotes(row[idx]);
+            }
+
+            result += cell;
+
+            if (cell.length() < colWidth) {
+                result += std::string(colWidth - cell.length(), ' ');
             }
     
             if (i < colIndices.size() - 1){
-                result += ",";
+                result += " | ";
             }
         }
         result += "\n";
     }
 
-    if (result.empty()){
+    if (filteredRows.empty()){
         return "No entries found!";
     }
 
@@ -304,6 +403,10 @@ std::string Table::update(std::string setCol, std::string setVal, std::string wh
 
     if (setIdx == -1){
         return "ERROR: Column " + setCol + " not found";
+    }
+
+    if (columns[setIdx].type == TYPE_DATE && !isValidDate(setVal)) {
+        return "ERROR: Invalid date format";
     }
 
     ConditionParser parser(whereClause, columns);

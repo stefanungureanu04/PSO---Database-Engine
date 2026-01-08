@@ -4,6 +4,7 @@
 #include <mutex>
 #include <string>
 #include <vector>
+#include <algorithm>
 
 enum ColumnType {
     TYPE_INT,
@@ -25,6 +26,10 @@ private:
 
     void saveToFile();
     void loadFromFile();
+
+private:
+    std::string removeQuotes(std::string str);
+    bool isValidDate(std::string strdate);
 
 public:
     Table(std::string name, std::vector<Column> cols, std::string dbPath);

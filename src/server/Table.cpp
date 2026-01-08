@@ -43,7 +43,6 @@ std::string Table::insert(const std::vector<std::string> &values)
         if (i < values.size() - 1){
             ss << ",";            
         }
-
     }
 
     ss << "\n";

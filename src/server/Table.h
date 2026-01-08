@@ -38,4 +38,4 @@ public:
     int getColumnIndex(std::string colName);
 };
 
-#endif // TABLE_H
+#endif

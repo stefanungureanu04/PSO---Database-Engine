@@ -1,0 +1,5 @@
+nume VARCHAR
+prenume VARCHAR
+curent_literar VARCHAR
+num_carti_publicate INT
+data_nasterii DATE

@@ -552,16 +552,39 @@ std::string Database::handleLog(std::string username)
         close(pipefd[1]);
         return "ERROR: Fork failed";
     }
-    else if (pid == 0){
+    else if (pid == 0) { 
         close(pipefd[0]);
-        dup2(pipefd[1], STDOUT_FILENO);
-        close(pipefd[1]);
 
-        std::string logFile = ".logs/server.log";
-        std::string pattern = "\\[" + username + "\\]";
+        int grepToTail[2];
 
-        execlp("grep", "grep", pattern.c_str(), logFile.c_str(), NULL);
-        exit(EXIT_FAILURE);
+        if (pipe(grepToTail) == -1) {
+            exit(EXIT_FAILURE);
+        }
+
+        pid_t subPid = fork();
+        
+        if (subPid == 0) { 
+            close(grepToTail[0]); 
+            dup2(grepToTail[1], STDOUT_FILENO); 
+            close(grepToTail[1]);
+
+            std::string pattern = "[" + username + "]";
+            std::string logFile = ".logs/server.log";
+
+            execlp("grep", "grep","-F", pattern.c_str(), logFile.c_str(), NULL);
+            exit(EXIT_FAILURE);
+        } 
+        else { 
+            close(grepToTail[1]); 
+            dup2(grepToTail[0], STDIN_FILENO); 
+            close(grepToTail[0]);
+
+            dup2(pipefd[1], STDOUT_FILENO); 
+            close(pipefd[1]);
+
+            execlp("tail", "tail", "-n", "50", NULL);
+            exit(EXIT_FAILURE);
+        }
     }
     else{
         close(pipefd[1]);
